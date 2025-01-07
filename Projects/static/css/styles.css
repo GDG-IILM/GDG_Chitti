@@ -16,7 +16,7 @@ body.light-mode {
 
 body.dark-mode {
     --bg-color: #181818;
-    --text-color: #f9f9f9;
+    --text-color: #333;
     --header-color: #1a73e8;
     --button-bg: #1a73e8;
     --button-text: #f9f9f9;
