@@ -68,7 +68,11 @@ sendMessageButton.addEventListener("click", async () => {
 
     // Clear input field
     userInput.value = "";
+
+    // Scroll to the bottom of the chat
+    // scrollToBottom();
 });
+
 // Function to scroll to the bottom of the chat
 function scrollToBottom() {
     const chatMessages = document.getElementById("chat-messages");
@@ -82,6 +86,7 @@ sendMessageButton.addEventListener("click", async () => {
     // After appending messages
     scrollToBottom();
 });
+
 userInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault(); // Prevent newline insertion
