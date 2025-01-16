@@ -4,7 +4,6 @@ import google.generativeai as genai
 # Configure Google Generative AI
 genai.configure(api_key="AIzaSyCJp7XuMNu2Ynl1AlxZoLUmRRXMGm_pYAE")
 
-# Define generation configuration
 generation_config = {
     "temperature": 0.4,
     "top_p": 0.95,
@@ -13,6 +12,17 @@ generation_config = {
     "stop_sequences": ["bye", "exit", "quit", "goodbye"],
     "response_mime_type": "text/plain",
 }
+
+model = genai.GenerativeModel(
+    model_name="gemini-2.0-flash-exp",
+    generation_config=generation_config,
+    system_instruction=(
+        "You are Sophia, the mentor of computer science undergrad students. "
+        "You solve the queries of the student related to their career paths and technical difficulties. "
+        "Use little humor to make the conversation interesting. Answer in a concise and brief manner."
+        "Use Good Formatting and Grammar and provide to the point answers to the queries."
+    ),
+)
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -29,32 +39,15 @@ def chat():
     user_input = data.get("message", "")
     history = data.get("history", [])
 
-    # Add a system instruction as part of the chat history
-    if not history or history[0].get("role") != "system":
-        history.insert(0, {
-            "role": "system",
-            "content": (
-                "You are Sophia, the mentor of computer science undergrad students. "
-                "You solve the queries of the student related to their career paths and technical difficulties. "
-                "Use little humor to make the conversation interesting. Answer in a concise and brief manner. "
-                "Use Good Formatting and Grammar and provide to the point answers to the queries."
-            )
-        })
-
-    # Start chat session
-    chat_session = genai.ChatModel(
-        model_name="gemini-2.0-flash-exp",
-        generation_config=generation_config
-    ).start_chat(history=history)
-
+    chat_session = model.start_chat(history=history)
     response = chat_session.send_message(user_input)
     model_response = response.text
 
-    # Append user input and model response to history
-    history.append({"role": "user", "content": user_input})
-    history.append({"role": "model", "content": model_response})
+    # Append to history
+    history.append({"role": "user", "parts": [user_input]})
+    history.append({"role": "model", "parts": [model_response]})
 
     return jsonify({"response": model_response, "history": history})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(debug=True)
