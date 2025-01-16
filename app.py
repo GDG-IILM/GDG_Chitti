@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 import google.generativeai as genai
 
-# Configure Google Generative AI
-genai.configure(api_key="AIzaSyCJp7XuMNu2Ynl1AlxZoLUmRRXMGm_pYAE")
+# Configure Google Generative AI with the new API key
+genai.configure(api_key="AIzaSyAX9DVo1ADQBARl5xtE-uUudXbOTbHVQl8")
 
 generation_config = {
     "temperature": 0.4,
@@ -15,13 +15,7 @@ generation_config = {
 
 model = genai.GenerativeModel(
     model_name="gemini-2.0-flash-exp",
-    generation_config=generation_config,
-    system_instruction=(
-        "You are Sophia, the mentor of computer science undergrad students. "
-        "You solve the queries of the student related to their career paths and technical difficulties. "
-        "Use little humor to make the conversation interesting. Answer in a concise and brief manner."
-        "Use Good Formatting and Grammar and provide to the point answers to the queries."
-    ),
+    generation_config=generation_config
 )
 
 # Initialize Flask app
@@ -39,7 +33,7 @@ def chat():
     user_input = data.get("message", "")
     history = data.get("history", [])
 
-    chat_session = model.start_chat(history=history)
+    chat_session = model.start_chat(history=history)  # You might set system_instruction here if needed
     response = chat_session.send_message(user_input)
     model_response = response.text
 
