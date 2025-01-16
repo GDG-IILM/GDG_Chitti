@@ -41,7 +41,7 @@ def chat():
             )
         })
 
-    # Start chat session with history
+    # Start chat session
     chat_session = genai.ChatModel(
         model_name="gemini-2.0-flash-exp",
         generation_config=generation_config
