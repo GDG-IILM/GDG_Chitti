@@ -179,3 +179,32 @@ body {
     border-radius: 10px;
     display: inline-block;
 }
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    height: 300px; /* Ensure height is sufficient */
+    scroll-behavior: smooth;
+}
+#chat-messages {
+    max-height: 400px; /* Set a maximum height for the chat area */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px; /* Add some padding for better readability */
+    box-sizing: border-box; /* Ensure padding doesn't affect width/height */
+}
+
+#typing-indicator {
+    font-style: italic;
+    color: gray;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.hidden {
+    display: none;
+}

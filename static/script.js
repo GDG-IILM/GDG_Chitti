@@ -1,3 +1,6 @@
+// Include Marked.js for Markdown rendering
+// Make sure you have added this in your HTML: <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 // Theme Toggle Functionality
 const themeToggler = document.getElementById("theme-toggler");
 const body = document.body;
@@ -38,6 +41,15 @@ sendMessageButton.addEventListener("click", async () => {
     userMessage.textContent = `You: ${message}`;
     chatMessages.appendChild(userMessage);
 
+    // Create a typing indicator for the bot
+    const botTypingIndicator = document.createElement("div");
+    botTypingIndicator.className = "message bot-message typing-indicator";
+    botTypingIndicator.textContent = "Bot is typing...";
+    chatMessages.appendChild(botTypingIndicator);
+
+    // Scroll to the bottom
+    scrollToBottom();
+
     // Send message to backend
     try {
         const response = await fetch("/chat", {
@@ -57,36 +69,52 @@ sendMessageButton.addEventListener("click", async () => {
         // Update chat history
         chatHistory = data.history;
 
-        // Display bot response
+        // Remove typing indicator and display bot response with animation
+        chatMessages.removeChild(botTypingIndicator);
+
         const botResponse = document.createElement("div");
         botResponse.className = "message bot-message";
-        botResponse.textContent = `Bot: ${botMessage}`;
         chatMessages.appendChild(botResponse);
+
+        // Animate the bot's reply
+        typeBotResponse(botResponse, `Bot: ${botMessage}`);
     } catch (error) {
         console.error("Error:", error);
+        chatMessages.removeChild(botTypingIndicator); // Remove typing indicator if error occurs
+        const errorMessage = document.createElement("div");
+        errorMessage.className = "message bot-message error-message";
+        errorMessage.textContent = "Bot: Something went wrong. Please try again.";
+        chatMessages.appendChild(errorMessage);
     }
 
     // Clear input field
     userInput.value = "";
-
-    // Scroll to the bottom of the chat
-    // scrollToBottom();
 });
 
 // Function to scroll to the bottom of the chat
 function scrollToBottom() {
-    const chatMessages = document.getElementById("chat-messages");
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Call this function after adding a new message
-sendMessageButton.addEventListener("click", async () => {
-    // (Existing message handling code...)
-    
-    // After appending messages
-    scrollToBottom();
-});
+// Function to animate bot response word by word and render Markdown
+function typeBotResponse(element, text) {
+    const words = text.split(" "); // Split the response into words
+    let currentWordIndex = 0;
+    element.innerHTML = ""; // Clear the element initially
 
+    const typingInterval = setInterval(() => {
+        if (currentWordIndex < words.length) {
+            element.innerHTML += words[currentWordIndex] + " "; // Append the next word
+            scrollToBottom(); // Ensure the user sees the latest word
+            currentWordIndex++;
+        } else {
+            clearInterval(typingInterval); // Stop the interval when done
+            element.innerHTML = marked.parse(text); // Render markdown after typing finishes
+        }
+    }, 100); // Adjust typing speed (in milliseconds)
+}
+
+// Trigger send on Enter key press
 userInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault(); // Prevent newline insertion
