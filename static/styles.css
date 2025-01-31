@@ -1,9 +1,9 @@
-/* General Reset */
+/* General Reset
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+} */
 
 /* Light and Dark Mode Styles */
 body.light-mode {
@@ -22,22 +22,22 @@ body.dark-mode {
     --button-text: #f9f9f9;
 }
 
-body {
+/* body {
     font-family: Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
-}
+} */
 
 /* Navbar */
-.navbar {
+/* .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
     background-color: var(--header-color);
     color: white;
-}
+} */
 
 .theme-toggler {
     background: none;
@@ -52,8 +52,8 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
+    z-index: 1000;
 }
-
 .chat-button {
     font-size: 24px;
     padding: 10px;
