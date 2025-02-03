@@ -12,17 +12,18 @@ themeToggler.addEventListener("click", () => {
 });
 
 // Chatbot Toggle Functionality
-const openChatButton = document.getElementById("open-chat");
+const openChatButton = document.getElementById("open-chat"); // Icon to open chatbot
 const closeChatButton = document.getElementById("close-chat");
 const chatbotContainer = document.getElementById("chatbot-container");
 
 openChatButton.addEventListener("click", () => {
-    chatbotContainer.classList.remove("hidden");
+    chatbotContainer.classList.toggle("hidden"); // Toggle visibility
 });
 
 closeChatButton.addEventListener("click", () => {
-    chatbotContainer.classList.add("hidden");
+    chatbotContainer.classList.add("hidden"); // Hide chat on close
 });
+
 
 // Chat Interaction
 const chatMessages = document.getElementById("chat-messages");
