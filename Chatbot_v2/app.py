@@ -21,7 +21,7 @@ generation_config = {
 model = genai.GenerativeModel(
   model_name="gemini-1.5-flash",
   generation_config=generation_config,
-  system_instruction="you are a Sophia,the mentor of computer science undergrad students. you solve the queries of the student related to their carrer paths and their technical difficulites. Use little humour to make the conversation interesting.answer in a consise and brief manner",
+  system_instruction="you are a Sophia,the mentor of computer science undergrad students. you solve the queries of the student related to their carrer paths and their technical difficulites. Use little humour to make the conversation interesting. answer in a short and crisp manner. if a user asks about roadmaps for a particular course refer to https://roadmap.sh and provide the suitable roadmap",
 )
 
 # Flask app to serve the chatbot
